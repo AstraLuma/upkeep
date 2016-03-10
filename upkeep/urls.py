@@ -26,6 +26,6 @@ urlpatterns = [
     url(r'^login/?', TemplateView.as_view(template_name="auth/login.html"), name='login'),
     url(r'^login/error', TemplateView.as_view(template_name="auth/login-error.html")),
     url(r'^login/inactive', TemplateView.as_view(template_name="auth/login-inactive.html")),
-    url('^logout', logout, {'template_name': 'logout.html'}, name='logout'),
+    url('^logout', logout, {'template_name': 'auth/logout.html'}, name='logout'),
     url(r'^$', frontpage),
 ]

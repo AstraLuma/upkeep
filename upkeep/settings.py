@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'kronos',
     'social.apps.django_app.default',
     'profiles',
+    'things',
 ]
 
 MIDDLEWARE_CLASSES = [
