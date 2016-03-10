@@ -23,9 +23,9 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url('', include('social.apps.django_app.urls', namespace='social')),
     url(r'^profile/', include('profiles.urls', namespace='profile')),
-    url(r'^login/?', TemplateView.as_view(template_name="login.html"), name='login'),
-    url(r'^login/error', TemplateView.as_view(template_name="login-error.html")),
-    url(r'^login/inactive', TemplateView.as_view(template_name="login-inactive.html")),
+    url(r'^login/?', TemplateView.as_view(template_name="auth/login.html"), name='login'),
+    url(r'^login/error', TemplateView.as_view(template_name="auth/login-error.html")),
+    url(r'^login/inactive', TemplateView.as_view(template_name="auth/login-inactive.html")),
     url('^logout', logout, {'template_name': 'logout.html'}, name='logout'),
     url(r'^$', frontpage),
 ]
