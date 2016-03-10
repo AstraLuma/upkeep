@@ -13,12 +13,13 @@ def stuffindex(request):
     stuff = Thing.objects.filter(user=request.user)
     return render(request, "things/index.html", {
         'stuff': stuff,
+        'jobs': Job.objects.filter(schedule__thing__user=request.user, done=False)
     })
 
 
 @login_required
 def thing(request, thingid):
-    thing = get_object_or_404(Thing.objects.accessible(request.user), id=thingid)
+    thing = get_object_or_404(Thing.objects.accessible_by(request.user), id=thingid)
     return render(request, 'things/thing.html', {
             'object': thing,
             'undonejobs': Job.objects.filter(schedule__thing=thing, done=False)
@@ -44,6 +45,7 @@ class AddThing(LoginRequiredMixin, FormView):
             self.success_url = thing.get_absolute_url()
         return super().form_valid(form)
 
+
 class ScheduleForm(ModelForm):
     class Meta:
         model = Schedule
@@ -56,7 +58,7 @@ class AddSchedule(LoginRequiredMixin, FormView):
     success_url = reverse_lazy("things:index")
 
     def get_thing(self):
-        return get_object_or_404(Thing.objects.accessible(self.request.user), id=self.args[0])
+        return get_object_or_404(Thing.objects.accessible_by(self.request.user), id=self.args[0])
 
     def get_context_data(self, **kwargs):
         if 'thing' not in kwargs:

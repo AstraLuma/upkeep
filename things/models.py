@@ -3,7 +3,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 
 class ThingQuerySet(models.QuerySet):
-    def accessible(self, user):
+    def accessible_by(self, user):
         if user.is_superuser:
             return self
         else:
@@ -13,8 +13,8 @@ class ThingManager(models.Manager):
     def get_queryset(self):
         return ThingQuerySet(self.model, using=self._db)
 
-    def accessible(self, user):
-        return self.get_queryset().accessible(user)
+    def accessible_by(self, user):
+        return self.get_queryset().accessible_by(user)
 
 class Thing(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -32,7 +32,7 @@ class Thing(models.Model):
 
 
 class ScheduleQuerySet(models.QuerySet):
-    def accessible(self, user):
+    def accessible_by(self, user):
         if user.is_superuser:
             return self
         else:
@@ -42,8 +42,8 @@ class ScheduleManager(models.Manager):
     def get_queryset(self):
         return ScheduleQuerySet(self.model, using=self._db)
 
-    def accessible(self, user):
-        return self.get_queryset().accessible(user)
+    def accessible_by(self, user):
+        return self.get_queryset().accessible_by(user)
 
 class Schedule(models.Model):
     thing = models.ForeignKey(Thing, on_delete=models.CASCADE)
@@ -64,7 +64,7 @@ class Schedule(models.Model):
 
 
 class JobQuerySet(models.QuerySet):
-    def accessible(self, user):
+    def accessible_by(self, user):
         if user.is_superuser:
             return self
         else:
@@ -74,8 +74,8 @@ class JobManager(models.Manager):
     def get_queryset(self):
         return ScheduleQuerySet(self.model, using=self._db)
 
-    def accessible(self, user):
-        return self.get_queryset().accessible(user)
+    def accessible_by(self, user):
+        return self.get_queryset().accessible_by(user)
 
 class Job(models.Model):
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE)

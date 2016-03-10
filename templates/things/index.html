@@ -13,6 +13,14 @@
 <li><a href="{{thing.get_absolute_url}}">{{thing}}</a></li>
 {% endfor %}
 </ul>
+
+<h2>Undone Jobs</h2>
+
+<ul>
+{% for j in jobs %}
+<li>{{j}}</li>
+{% endfor %}
+</ul>
 {% endif %}
 
 {% endblock %}
