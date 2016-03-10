@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load profiles %}
+
+{% block title %}Logged Out{% endblock %}
+
+{% block content %}
+<p>You have been logged out</p>
+<p><a href="{% url 'login' %}">Log back in</a></p>
+<p><a href="/">Homepage</a></p>
+{% endblock %}
