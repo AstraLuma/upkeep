@@ -1,11 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
-from .models import Thing, ThingForm, Schedule, Job
+from .models import Thing, Schedule, Job
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse_lazy
-from django.http import Http404
 from django.shortcuts import get_object_or_404
+from django.forms import ModelForm
+import datetime
 
 @login_required
 def stuffindex(request):
@@ -14,13 +15,20 @@ def stuffindex(request):
         'stuff': stuff,
     })
 
+
 @login_required
 def thing(request, thingid):
-    thing = get_object_or_404(Thing, id=thingid)
-    if request.user.is_superuser or thing.user == request.user:
-        return render(request, 'things/thing.html', {
-                'object': thing,
-            })
+    thing = get_object_or_404(Thing.objects.accessible(request.user), id=thingid)
+    return render(request, 'things/thing.html', {
+            'object': thing,
+            'undonejobs': Job.objects.filter(schedule__thing=thing, done=False)
+        })
+
+
+class ThingForm(ModelForm):
+    class Meta:
+        model = Thing
+        fields = ['name']
 
 # Don't use CreateView because we have to do current user stuff
 class AddThing(LoginRequiredMixin, FormView):
@@ -34,4 +42,32 @@ class AddThing(LoginRequiredMixin, FormView):
             thing.user = self.request.user
             thing.save()
             self.success_url = thing.get_absolute_url()
-        return super(AddThing, self).form_valid(form)
+        return super().form_valid(form)
+
+class ScheduleForm(ModelForm):
+    class Meta:
+        model = Schedule
+        fields = ['name', 'period']
+
+# Don't use CreateView because we have to do current user stuff
+class AddSchedule(LoginRequiredMixin, FormView):
+    template_name = 'things/addschedule.html'
+    form_class = ScheduleForm
+    success_url = reverse_lazy("things:index")
+
+    def get_thing(self):
+        return get_object_or_404(Thing.objects.accessible(self.request.user), id=self.args[0])
+
+    def get_context_data(self, **kwargs):
+        if 'thing' not in kwargs:
+            kwargs['thing'] = self.get_thing()
+        return super().get_context_data(**kwargs)
+
+    def form_valid(self, form):
+        if form.is_valid():
+            sched = form.save(commit=False)
+            sched.thing = self.get_thing()
+            sched.next_job_at = datetime.date.today() + sched.period
+            sched.save()
+            self.success_url = sched.thing.get_absolute_url()
+        return super().form_valid(form)

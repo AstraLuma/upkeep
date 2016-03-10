@@ -1,16 +1,25 @@
 {% extends "base.html" %}
 {% load profiles %}
 
-{% block title %}Your Stuff{% endblock %}
+{% block title %}Your {{object}}{% endblock %}
 
 {% block content %}
 <h1>{{object}}</h1>
 
 <h2>Schedules</h2>
 <ul>
-{% for s in object.schedules %}
-<li>{{s}}</li>
+{% for s in object.schedule_set.all %}
+<li>{{s}} every {{s.period}}</li>
 {% endfor %}
 </ul>
+<p><a href="{%url 'things:addschedule' object.id%}">Add</a></p>
+
+<h2>Undone Jobs</h2>
+<ul>
+{% for j in undonejobs %}
+<li>{{j.schedule.name}}</li>
+{% endfor %}
+</ul>
+
 
 {% endblock %}
