@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load profiles %}
+
+{% block title %}You Should Use my App!{% endblock %}
+
+{% block content %}
+<p>You should totally use my app! It's awesome!</p>
+<p><a href="{% url 'login' %}">Login!</a></p>
+{% endblock %}

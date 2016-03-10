@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load profiles %}
+
+{% block title %}Your Stuff{% endblock %}
+
+{% block content %}
+<h1>Your Stuff</h1>
+<a href="{% url 'logout' %}">Logout</a>
+{% endblock %}

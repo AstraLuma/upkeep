@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'kronos',
     'social.apps.django_app.default',
+    'profiles',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -58,7 +59,7 @@ ROOT_URLCONF = 'upkeep.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -88,11 +89,11 @@ DATABASES = {
 
 
 AUTHENTICATION_BACKENDS = (
-    'social.backends.open_id.OpenIdAuth',
+    #'social.backends.open_id.OpenIdAuth',
     'social.backends.google.GoogleOAuth2',
     'social.backends.twitter.TwitterOAuth',
     'social.backends.facebook.FacebookOAuth2',
-#    'django.contrib.auth.backends.ModelBackend',  # Don't need this because we're not using passwords
+    'django.contrib.auth.backends.ModelBackend',  # Only needed for admin/superuser
 )
 
 # Password validation
@@ -120,14 +121,18 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
 # Social Auth configuration
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/logged-in/'
-SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'
-SOCIAL_AUTH_LOGIN_URL = '/login-url/'
-SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/new-users-redirect-url/'
-SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = '/new-association-redirect-url/'
-SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/account-disconnected-redirect-url/'
-SOCIAL_AUTH_INACTIVE_USER_URL = '/inactive-user/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/login/error'
+SOCIAL_AUTH_LOGIN_URL = '/'
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/stuff/add'
+SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = '/profile#social'
+SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/profile#social'
+SOCIAL_AUTH_INACTIVE_USER_URL = '/login/inactive'
 
 # Social Auth Backend configuration
 #SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'configureme'  # https://developers.google.com/identity/protocols/OAuth2?csw=1#Registering
@@ -140,3 +145,8 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_USE_UNIQUE_USER_ID = True
 #SOCIAL_AUTH_FACEBOOK_KEY = 'configureme'  # http://developers.facebook.com/setup/
 #SOCIAL_AUTH_FACEBOOK_SECRET = 'configureme'
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass

@@ -15,8 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.views.generic.base import TemplateView
+from .views import frontpage
+from django.contrib.auth.views import logout
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url('', include('social.apps.django_app.urls', namespace='social')),
+    url(r'^profile/', include('profiles.urls', namespace='profile')),
+    url(r'^login/?', TemplateView.as_view(template_name="login.html"), name='login'),
+    url(r'^login/error', TemplateView.as_view(template_name="login-error.html")),
+    url(r'^login/inactive', TemplateView.as_view(template_name="login-inactive.html")),
+    url('^logout', logout, name='logout'),
+    url(r'^$', frontpage),
 ]

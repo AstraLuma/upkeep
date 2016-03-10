@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load profiles %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<h1>Login</h1>
+
+<div>Select login method</div>
+{% for be in backends.backends %}
+<a class="loginbtn {{be}}" href="{% url "social:begin" be %}">{% socialname be %}</a>
+{% endfor %}
+
+{% endblock %}
