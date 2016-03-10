@@ -18,6 +18,7 @@ from django.views.generic.base import TemplateView
 from .views import frontpage
 from django.contrib.auth.views import logout
 from django.conf import settings
+from django.forms import ModelForm
 
 urlpatterns = []
 
@@ -30,6 +31,7 @@ if settings.DEBUG:
 urlpatterns += [
     url(r'^!csp/', include('cspreports.urls')),
     url('', include('social.apps.django_app.urls', namespace='social')),
+    url('', include('things.urls', namespace='things')),
     url(r'^profile/', include('profiles.urls', namespace='profile')),
     url(r'^login/?', TemplateView.as_view(template_name="auth/login.html"), name='login'),
     url(r'^login/error', TemplateView.as_view(template_name="auth/login-error.html")),

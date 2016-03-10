@@ -4,6 +4,13 @@
 {% block title %}Your Stuff{% endblock %}
 
 {% block content %}
-<h1>Your Stuff</h1>
-<a href="{% url 'logout' %}">Logout</a>
+<h1>{{object}}</h1>
+
+<h2>Schedules</h2>
+<ul>
+{% for s in object.schedules %}
+<li>{{s}}</li>
+{% endfor %}
+</ul>
+
 {% endblock %}
