@@ -1,0 +1,3 @@
+[submodule ".lib/django-csp-reports"]
+	path = .lib/django-csp-reports
+	url = git@github.com:astronouth7303/django-csp-reports.git

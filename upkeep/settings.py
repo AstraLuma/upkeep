@@ -22,9 +22,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'configureme'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
@@ -41,6 +38,7 @@ INSTALLED_APPS = [
     'social.apps.django_app.default',
     'profiles',
     'things',
+    'cspreports',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -53,6 +51,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
 
 ROOT_URLCONF = 'upkeep.urls'
@@ -136,6 +135,20 @@ SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = '/profile#social'
 SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/profile#social'
 SOCIAL_AUTH_INACTIVE_USER_URL = '/login/inactive'
 
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.auth_allowed',
+    'social.pipeline.social_auth.social_user',
+    'social.pipeline.user.get_username',
+    # 'social.pipeline.mail.mail_validation',
+    #'profiles.pipeline.associate_by_email', This is horribly broken by things like USE_UNIQUE_USER_ID and multiple email addresses
+    'social.pipeline.user.create_user',
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.user_details',
+)
+
 # Social Auth Backend configuration
 #SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'configureme'  # https://developers.google.com/identity/protocols/OAuth2?csw=1#Registering
 #SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'configureme'
@@ -147,6 +160,17 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_USE_UNIQUE_USER_ID = True
 #SOCIAL_AUTH_FACEBOOK_KEY = 'configureme'  # http://developers.facebook.com/setup/
 #SOCIAL_AUTH_FACEBOOK_SECRET = 'configureme'
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
+
+# CSP Configuration
+# https://django-csp.readthedocs.org/en/latest/configuration.html#configuration-chapter
+from django.core.urlresolvers import reverse_lazy
+CSP_STYLE_SRC = ["'self'", "maxcdn.bootstrapcdn.com"]  # Only for development
+CSP_FONT_SRC = ["'self'", "maxcdn.bootstrapcdn.com"]  # Only for development
+CSP_REPORT_URI = reverse_lazy('report_csp')
+# Note: https://www.tollmanz.com/content-security-policy-report-samples/ for information on the particulars of reports
+# Also: https://www.virtuesecurity.com/blog/abusing-csp-violation-reporting/ for security implications
+CSP_REPORTS_EMAIL_ADMINS = False  # Don't spam my inbox
 
 try:
     from .local_settings import *
