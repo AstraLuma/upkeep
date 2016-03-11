@@ -9,7 +9,7 @@
 <h2>Schedules</h2>
 <ul>
 {% for s in object.schedule_set.all %}
-<li>{{s}} every {{s.period}}</li>
+<li id="schedule-{{s.id}}">{{s}} every {{s.period}}</li>
 {% endfor %}
 </ul>
 <p><a href="{%url 'things:addschedule' object.id%}">Add</a></p>
