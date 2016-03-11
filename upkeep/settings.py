@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'profiles',
     'things',
     'cspreports',
+    'tasks',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -171,6 +172,12 @@ CSP_REPORT_URI = reverse_lazy('report_csp')
 # Note: https://www.tollmanz.com/content-security-policy-report-samples/ for information on the particulars of reports
 # Also: https://www.virtuesecurity.com/blog/abusing-csp-violation-reporting/ for security implications
 CSP_REPORTS_EMAIL_ADMINS = False  # Don't spam my inbox
+
+
+# Job Queue (Celery)
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_ACCEPT_CONTENT = ['json', 'msgpack', 'yaml']
+
 
 try:
     from .local_settings import *
