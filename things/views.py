@@ -6,6 +6,7 @@ from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404
 from django.forms import ModelForm
+from django.http import JsonResponse
 import datetime
 
 @login_required
@@ -73,3 +74,21 @@ class AddSchedule(LoginRequiredMixin, FormView):
             sched.save()
             self.success_url = sched.thing.get_absolute_url()
         return super().form_valid(form)
+
+def undones_json(request):
+    ud = Job.objects.filter(schedule__thing__user=request.user, done=False)
+    return JsonResponse({'jobs': [{
+            'thing': {
+                'name': j.schedule.thing.name,
+                'id': j.schedule.thing.id,
+                'url': j.schedule.thing.get_absolute_url(),
+            },
+            'schedule': {
+                'name': j.schedule.name,
+                'id': j.schedule.id,
+                'url': j.schedule.get_absolute_url(),
+            },
+            'when': j.when.isoformat(),
+        }
+        for j in ud
+        ]})

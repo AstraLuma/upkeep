@@ -60,7 +60,7 @@ class Schedule(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('things.views.schedule', args=[self.id])
+        return reverse('things:thing', args=[self.thing.id]) + '#schedule-{}'.format(self.id)
 
 
 class JobQuerySet(models.QuerySet):
@@ -90,6 +90,3 @@ class Job(models.Model):
             return "{} at {} (done)".format(self.schedule, self.when)
         else:
             return "{} at {}".format(self.schedule, self.when)
-
-    def get_absolute_url(self):
-        return reverse('things.views.job', args=[self.id])
