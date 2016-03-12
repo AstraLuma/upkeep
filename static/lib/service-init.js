@@ -10,8 +10,8 @@
       return swr.pushManager.getSubscription(); 
     })
     .then(function(ps) {
-      //if (ps) return;
-      return serviceWorkerRegistration.pushManager.subscribe(/*{userVisibleOnly: true}*/);
+      if (ps) return;
+      return serviceWorkerRegistration.pushManager.subscribe({userVisibleOnly: true});
     })
     .then(
       function(pushsub) {
