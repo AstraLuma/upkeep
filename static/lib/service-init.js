@@ -15,14 +15,15 @@
     })
     .then(
       function(pushsub) {
+        if (!pushsub) return;
         console.log(pushsub.endpoint);
         return $$.json.post("/!push/register", {url: pushsub.endpoint});
       }, function(err) {
         console.error("Can't subscribe!", err); 
         throw err;
     })
-    .then(function(xhr) {
-      console.info("Registered!", xhr.statusText);
-    }, function(xhr) {console.error("Can't register subscription!", xhr.statusText);});
+    .then(function(resp) {
+      console.info("Registered!", resp);
+    }, function(err) {console.error("Can't register subscription!", err);});
   }
 })();
