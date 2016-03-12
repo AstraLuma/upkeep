@@ -11,7 +11,7 @@
     })
     .then(function(ps) {
       //if (ps) return;
-      return serviceWorkerRegistration.pushManager.subscribe({userVisibleOnly: true});
+      return serviceWorkerRegistration.pushManager.subscribe(/*{userVisibleOnly: true}*/);
     })
     .then(
       function(pushsub) {

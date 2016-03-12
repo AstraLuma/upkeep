@@ -185,55 +185,24 @@ $$.empty2fragment = function(ele) {
  * The returned promise is resolved if the HTTP request completes, regardless of
  * the status code. It is rejected if the request fails.
  */
-$$.ajax = function(method, url, options) {
+ $$.ajax = function(method, url, options) {
     return new Promise(function(resolve, reject) {
-        var xhr = new XMLHttpRequest();
-        method = method.toUpperCase();
+        var init = {
+            redirect: 'follow',
+            credentials: 'same-origin',  // FIXME: Set to 'cors' if it's not same origin
+            headers: {}
+        };
+        init.method = method.toUpperCase();
 
         if (options.params) {
             url += (url.indexOf('?') > 0 ? '&' : '?') + options.params;
         }
 
-        xhr.open(method, url, true);
-
-        if (options.responseType) {
-            xhr.responseType = options.responseType;
-        }
-        if (options.withCredentials) {
-            xhr.withCredentials = true;
-        }
-
         if (options.headers) {
-            for (var h in options.headers) {
-                xhr.setRequestHeader(h, options.headers[h]);
-            }
+            init.headers = options.headers;
         }
         // This bit is Django-specific. If you copy this library, you'll probably want to remove it
-        xhr.setRequestHeader('X-CSRFToken', $$.getCookies().csrftoken);
-
-        if (options.progress) {
-            xhr.addEventListener("progress", options.progress, false);
-        }
-
-        xhr.addEventListener("load", function() {
-            if (200 <= xhr.status && xhr.status < 400) {
-                resolve(xhr);
-            } else {
-                reject(xhr);
-            }
-        }, false);
-        
-        xhr.addEventListener("error", function() {
-            reject(xhr);
-        }, false);
-        
-        xhr.addEventListener("abort", function() {
-            reject(xhr);
-        }, false);
-
-        xhr.addEventListener("timeout", function() {
-            reject(xhr);
-        }, false);
+        init.headers['X-CSRFToken'] = $$.getCookies().csrftoken;
 
         var body = options.body;
         if ($$.isPlainObject(options.body)) {
@@ -243,7 +212,19 @@ $$.ajax = function(method, url, options) {
             }
         }
 
-        xhr.send(body);
+        init.body = body;
+
+        return fetch(url, init).then(
+            function(response) {
+                if (response.ok) {
+                    resolve(response);
+                } else {
+                    reject(response);
+                }
+            },
+            function(err) {
+                reject(err);
+            });
     });
 };
 
@@ -396,10 +377,11 @@ $$.trim = function( text ) {
         ( text + "" ).replace( rtrim, "" );
 };
 
-var _cookiejar = {};
+var _cookiejar;
 
 $$.getCookies = function () {
     if (!_cookiejar && document.cookie && document.cookie != '') {
+        _cookiejar = {};
         var cookies = document.cookie.split(';');
         for (var i = 0; i < cookies.length; i++) {
             var cookie = $$.trim(cookies[i]);
