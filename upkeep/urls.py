@@ -30,12 +30,13 @@ if settings.DEBUG:
 
 urlpatterns += [
     url(r'^!csp/', include('cspreports.urls')),
+    url(r'^!push/', include('piston.urls', namespace='push')),
     url('', include('social.apps.django_app.urls', namespace='social')),
     url('', include('things.urls', namespace='things')),
     url(r'^profile/', include('profiles.urls', namespace='profile')),
     url(r'^login/?', TemplateView.as_view(template_name="auth/login.html"), name='login'),
     url(r'^login/error', TemplateView.as_view(template_name="auth/login-error.html")),
     url(r'^login/inactive', TemplateView.as_view(template_name="auth/login-inactive.html")),
-    url('^logout', logout, {'template_name': 'auth/logout.html'}, name='logout'),
+    url(r'^logout', logout, {'template_name': 'auth/logout.html'}, name='logout'),
     url(r'^$', frontpage),
 ]

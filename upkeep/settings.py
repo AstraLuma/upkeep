@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'things',
     'cspreports',
     'tasks',
+    'piston',
 ]
 
 MIDDLEWARE_CLASSES = [
