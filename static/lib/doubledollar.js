@@ -396,17 +396,18 @@ $$.trim = function( text ) {
         ( text + "" ).replace( rtrim, "" );
 };
 
+var _cookiejar = {};
+
 $$.getCookies = function () {
-    var cookiejar = {};
-    if (document.cookie && document.cookie != '') {
+    if (!_cookiejar && document.cookie && document.cookie != '') {
         var cookies = document.cookie.split(';');
         for (var i = 0; i < cookies.length; i++) {
             var cookie = $$.trim(cookies[i]);
             cookie = cookie.split('=', 2);
-            cookiejar[cookie[0]] = decodeURIComponent(cookie[1]);
+            _cookiejar[cookie[0]] = decodeURIComponent(cookie[1]);
         }
     }
-    return cookiejar;
+    return _cookiejar;
 }
 
 /** }}} **/
