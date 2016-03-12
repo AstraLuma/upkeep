@@ -3,7 +3,7 @@
 
 self.addEventListener('push', function(event) {
   console.info("Pushed!");
-  // Safely reentrant; don't use waituntil()
+  // This is safely reentrant; waitUntil is not necessary
   fetch("/undones.json", {credentials: 'same-origin'})
   .then(function(resp) {
     console.info("Got response", resp);
@@ -12,22 +12,42 @@ self.addEventListener('push', function(event) {
   .then(function(obj) {
     console.info("Undones", obj);
 
-    // Have to pull out the latest, notify on that
+    var jobs = obj.jobs;
+    console.info("Jobs", jobs);
 
-    var title = 'New Job';  
-    var body = 'You have '+obj.jobs.length+' jobs';
-    var icon = 'push-icon.png';  
-    var tag = 'new-job';
-   
-    return self.registration.showNotification(title, {
-      body: body,  
-      icon: icon,  
-      tag: tag  
+    if (jobs.length < 1) {
+      console.info("Ok, we lied. We're not going to show a notification");
+      return;
+    }
+
+    var curjob = jobs[0];
+    jobs.forEach(function(job) {
+      console.info("Job", job);
+      if (curjob.when < job.when)
+        curjob = job;
     });
-  })
-  .then(function(event) {
-    console.info("Notification", event);
-  });
+
+    console.info("curjob", curjob);
+
+    var title = 'New Job: '+curjob.schedule.name;
+    var ops = {
+      'body':  'Plus '+(obj.jobs.length - 1)+' other jobs',
+      'icon': 'push-icon.png',
+      'tag': 'new-job'
+    };
+    
+    console.info("ops", ops);
+
+    return self.registration.showNotification(title, ops)
+    .then(function(event) {
+      console.info("Notification", event);
+      // This is failing. Not sure why.
+      return clients.openWindow(curjob.schedule.url);
+    }, function(err) {console.error("Notification problems", err); throw err;});
+  }).then(
+  function(obj) {console.log("Resolve", obj);},
+  function(obj) {console.log("Reject", obj);}
+  );
 });
 
 console.log("Service workers!");
