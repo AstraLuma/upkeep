@@ -10,6 +10,7 @@ self.addEventListener('push', function(event) {
     return resp.json()
   })
   .then(function(obj) {
+    console.group();
     console.info("Undones", obj);
 
     var jobs = obj.jobs;
@@ -37,12 +38,13 @@ self.addEventListener('push', function(event) {
     };
     
     console.info("ops", ops);
+    console.groupEnd();
 
     return self.registration.showNotification(title, ops)
     .then(function(event) {
       console.info("Notification", event);
       // This is failing. Not sure why.
-      return clients.openWindow(curjob.schedule.url);
+      return /*clients.openWindow(curjob.schedule.url)*/;
     }, function(err) {console.error("Notification problems", err); throw err;});
   }).then(
   function(obj) {console.log("Resolve", obj);},
