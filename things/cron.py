@@ -14,4 +14,9 @@ def create_jobs():
         j.done = False
         j.save()
         newjobnotify.delay(j.pk)
-        
+
+@kronos.register('0 0 0 0 0')
+def retry():
+	j = Job.objects.order_by('-when')[0]
+	print(j)
+	newjobnotify.delay(j.pk)

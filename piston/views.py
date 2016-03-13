@@ -1,8 +1,9 @@
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.db import IntegrityError
+from django.conf import settings
 import json
 from .models import PushRegistration
-from django.db import IntegrityError
 
 
 @login_required
@@ -27,3 +28,9 @@ def addurl(request):
 @login_required
 def dropurl(request):
     raise NotImplementedError()
+
+def manifest(request):
+    m = getattr(settings, 'WEB_MANIFEST', {}).copy()
+    if hasattr(settings, 'GCM_SENDER_ID'):
+        m['gcm_sender_id'] = settings.GCM_SENDER_ID
+    return JsonResponse(m)

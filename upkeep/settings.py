@@ -179,6 +179,12 @@ CSP_REPORTS_EMAIL_ADMINS = False  # Don't spam my inbox
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT = ['json', 'msgpack', 'yaml']
 
+WEB_MANIFEST = {
+    "name": "Upkeep Your Stuff",
+    "short_name": "Upkeep",
+    "start_url": "/",
+    "icons": []
+}
 
 try:
     from .local_settings import *
