@@ -6,7 +6,7 @@ from piston import notify
 def newjobnotify(jid):
 	try:
 		job = Job.objects.get(pk=jid)
-	except Job.DoesNotExit:
+	except Job.DoesNotExist:
 		return
 	if job.done:
 		return

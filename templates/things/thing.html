@@ -1,7 +1,15 @@
 {% extends "base.html" %}
 {% load profiles %}
+{% load static %}
 
 {% block title %}Your {{object}}{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'things/jobs.css' %}">
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'things/jobs.js' %}"></script>
+{% endblock %}
 
 {% block content %}
 <h1>{{object}}</h1>
@@ -17,9 +25,8 @@
 <h2>Undone Jobs</h2>
 <ul>
 {% for j in undonejobs %}
-<li>{{j.schedule.name}}</li>
+<li>{{j}} <button data-jobid="{{j.id}}" data-action="finish-job">Finished!</button></li>
 {% endfor %}
 </ul>
-
 
 {% endblock %}

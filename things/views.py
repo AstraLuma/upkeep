@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.forms import ModelForm
 from django.http import JsonResponse
 import datetime
+import json
 
 @login_required
 def stuffindex(request):
@@ -75,6 +76,7 @@ class AddSchedule(LoginRequiredMixin, FormView):
             self.success_url = sched.thing.get_absolute_url()
         return super().form_valid(form)
 
+@login_required
 def undones_json(request):
     ud = Job.objects.filter(schedule__thing__user=request.user, done=False)
     return JsonResponse({'jobs': [{
@@ -92,3 +94,18 @@ def undones_json(request):
         }
         for j in ud
         ]})
+
+@login_required
+def finishjob_json(request):
+    if request.method != 'POST':
+        return JsonResponse({'msg': 'Try a POST'}, status=405)  # Method Not Allowed
+    obj = json.loads(request.body.decode('utf-8'))
+    try:
+        job = Job.objects.get(pk=obj['job'])
+    except Job.DoesNotExist:
+        return JsonResponse({'msg': 'Job does not exist'}, status=400)
+
+    job.done = True
+    job.save()
+
+    return JsonResponse({'ok': True})

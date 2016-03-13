@@ -46,7 +46,7 @@ self.addEventListener('push', function(event) {
     }, function(err) {console.error("Notification problems", err); throw err;});
   }).then(
   function(obj) {console.log("Resolve", obj);},
-  function(obj) {console.log("Reject", obj);}
+  function(obj) {console.error("Reject", obj);}
   );
 });
 
