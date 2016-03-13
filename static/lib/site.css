@@ -20,3 +20,16 @@
 .facebook::before {
 	content: "\f09a";
 }
+
+nav.sidebar {
+	float: left;
+	width: 7em;
+	margin: 1em;
+	margin-right: 2em;
+	border: solid black;
+	padding: .5em;
+}
+
+nav ~ section {
+	margin-left: 11em;
+}

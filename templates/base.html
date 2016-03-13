@@ -17,7 +17,33 @@
         {% block head %}{% endblock %}
     </head>
     <body>
+    {% if stuff != None %}
+    <nav class="sidebar">
+        <h1><a href="/">My Stuff</a></h1>
+        {% if not stuff %}
+        <p>You don't have any stuff!
+        {% else %}
+        <ul>
+        {% for thing in stuff %}
+        <li><a href="{{thing.get_absolute_url}}">{{thing}}</a></li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+        <button data-action=show-dialog data-dialog=dlg-addthing>Add</button>
+    </nav>
+    {% endif %}
+    <section>
     {% block content %}{% endblock %}
+    </section>
+
+    <dialog id="dlg-addthing">
+        <form action="{% url 'things:addthing' %}" method=POST>
+            {% csrf_token %}
+            {{ forms.thing.as_p }}
+            <input type=submit value="Add">
+        </form>
+    </dialog>
+
     {% if DEBUG %}<a href="{% url 'logout' %}">Logout</a>{% endif %}
     <script src="{% static 'lib/doubledollar.js' %}"></script>
     {% if user.is_authenticated %}

@@ -146,6 +146,10 @@ $$.query = function(ele, expr) {
 /// Shortcut for $$.query
 $$.q = $$.query;
 
+$$.id = function(eid) {
+    return document.getElementById(eid);
+}
+
 /**
  * Empties an element, moving all of its children to a document fragment.
  *

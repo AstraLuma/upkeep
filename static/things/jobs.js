@@ -8,3 +8,9 @@ $$.q('[data-action=finish-job]').forEach(function(ele) {
         });
     });
 });
+
+$$.q('[data-action=show-dialog]').forEach(function(ele) {
+    ele.addEventListener("click", function(event) {
+        $$.id(event.target.dataset.dialog).showModal();
+    });
+});

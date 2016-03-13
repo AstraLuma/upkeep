@@ -12,23 +12,14 @@
 {% endblock %}
 
 {% block content %}
-<h1>Your Stuff</h1>
-{% if not stuff %}
-<p>You don't have any stuff! <a href="{% url 'things:addthing' %}">Add a thing!</a></p>
-{% else %}
-<ul>
-{% for thing in stuff %}
-<li><a href="{{thing.get_absolute_url}}">{{thing}}</a></li>
-{% endfor %}
-</ul>
 
 <h2>Undone Jobs</h2>
 
 <ul>
 {% for j in jobs %}
-<li>{{j}} <button data-jobid="{{j.id}}" data-action="finish-job">Finished!</button></li>
+<li>{{j}} <button data-jobid="{{j.id}}" data-action="finish-job">Finish</button></li>
 {% endfor %}
 </ul>
-{% endif %}
+
 
 {% endblock %}

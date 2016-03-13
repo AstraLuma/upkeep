@@ -20,13 +20,21 @@
 <li id="schedule-{{s.id}}">{{s}} every {{s.period}}</li>
 {% endfor %}
 </ul>
-<p><a href="{%url 'things:addschedule' object.id%}">Add</a></p>
+<button data-action=show-dialog data-dialog=dlg-addschedule>Add</button>
 
 <h2>Undone Jobs</h2>
 <ul>
 {% for j in undonejobs %}
-<li>{{j}} <button data-jobid="{{j.id}}" data-action="finish-job">Finished!</button></li>
+<li>{{j}} <button data-jobid="{{j.id}}" data-action="finish-job">Finish</button></li>
 {% endfor %}
 </ul>
+
+<dialog id="dlg-addschedule">
+    <form action="{% url 'things:addschedule' object.id %}" method=POST>
+        {% csrf_token %}
+        {{ forms.schedule.as_p }}
+	    <input type=submit value="Add">
+    </form>
+</dialog>
 
 {% endblock %}

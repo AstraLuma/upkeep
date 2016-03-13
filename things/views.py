@@ -10,22 +10,31 @@ from django.http import JsonResponse
 import datetime
 import json
 
+def genctx(request, **vars):
+    rv = {
+        'stuff': Thing.objects.filter(user=request.user),
+        'forms': {
+            'thing': ThingForm(),
+            'schedule': ScheduleForm(),
+        },
+    }
+    rv.update(vars)
+    return rv
+
 @login_required
 def stuffindex(request):
-    stuff = Thing.objects.filter(user=request.user)
-    return render(request, "things/index.html", {
-        'stuff': stuff,
-        'jobs': Job.objects.filter(schedule__thing__user=request.user, done=False)
-    })
+    return render(request, "things/index.html", genctx(request,
+        jobs=Job.objects.filter(schedule__thing__user=request.user, done=False),
+    ))
 
 
 @login_required
 def thing(request, thingid):
     thing = get_object_or_404(Thing.objects.accessible_by(request.user), id=thingid)
-    return render(request, 'things/thing.html', {
-            'object': thing,
-            'undonejobs': Job.objects.filter(schedule__thing=thing, done=False)
-        })
+    return render(request, 'things/thing.html', genctx(request,
+            object=thing,
+            undonejobs=Job.objects.filter(schedule__thing=thing, done=False),
+        ))
 
 
 class ThingForm(ModelForm):

@@ -1,4 +1,5 @@
 button[data-action] {
+	margin: .7em;
 }
 
 button[data-action][disabled] {
