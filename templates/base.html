@@ -29,7 +29,7 @@
         {% endfor %}
         </ul>
         {% endif %}
-        <button data-action=show-dialog data-dialog=dlg-addthing>Add</button>
+        <button data-action=show-dialog data-dialog=dlg-addthing><span class="fa-plus"></span> Add</button>
     </nav>
     {% endif %}
     <section>
@@ -37,6 +37,8 @@
     </section>
 
     <dialog id="dlg-addthing">
+        <button data-action=close><span class="fa-close"></span></button>
+        <h3>Add Thing</h3>
         <form action="{% url 'things:addthing' %}" method=POST>
             {% csrf_token %}
             {{ forms.thing.as_p }}

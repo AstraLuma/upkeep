@@ -1,35 +1,48 @@
 .loginbtn {
-	display: inline-block;
-	border: thin solid black;
-	padding: 1em;
-	margin: 1em;
-	text-align: center;
-	text-decoration: none;
-	color: black;
+    display: inline-block;
+    border: thin solid black;
+    padding: 1em;
+    margin: 1em;
+    text-align: center;
+    text-decoration: none;
+    color: black;
 }
 .loginbtn::before {
-	font: FontAwesome;
-	margin-right: 1ex;
+    font: FontAwesome;
+    margin-right: 1ex;
 }
 .google-oauth2::before {
-	content: "\f1a0";
+    content: "\f1a0";
 }
 .twitter::before {
-	content: "\f099";
+    content: "\f099";
 }
 .facebook::before {
-	content: "\f09a";
+    content: "\f09a";
 }
 
 nav.sidebar {
-	float: left;
-	width: 7em;
-	margin: 1em;
-	margin-right: 2em;
-	border: solid black;
-	padding: .5em;
+    float: left;
+    width: 7em;
+    margin-left: 1em;
+    margin-right: 2em;
+    border: solid black;
+    padding: .5em;
 }
 
-nav ~ section {
-	margin-left: 11em;
+nav.sidebar h1 {
+    text-align: center;
+}
+
+
+nav.sidebar ~ section {
+    margin-left: 11em;
+}
+
+dialog > h3:first-child {
+    margin-top: 0;
+}
+
+nav.sidebar > h1:first-child {
+    margin-top: 0.2em;
 }

@@ -5,5 +5,9 @@
 
 {% block content %}
 <p>You should totally use my app! It's awesome!</p>
-<p><a href="{% url 'login' %}">Login!</a></p>
+
+{% for be in backends.backends %}
+<a class="loginbtn {{be}}" href="{% url "social:begin" be %}">{% socialname be %}</a>
+{% endfor %}
+
 {% endblock %}

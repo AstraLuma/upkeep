@@ -1,4 +1,4 @@
-button[data-action] {
+button[data-action=finish] {
 	margin: .7em;
 }
 
@@ -6,4 +6,8 @@ button[data-action][disabled] {
 	opacity: 0;
 	visibility: hidden;
 	transition: opacity 1.0s, visibility 1.0s;
+}
+
+button[data-action=close] {
+	float: right;
 }
