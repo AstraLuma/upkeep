@@ -54,6 +54,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
     'csp.middleware.CSPMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware'
 ]
 
 ROOT_URLCONF = 'upkeep.urls'
@@ -78,6 +79,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'upkeep.wsgi.application'
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
@@ -89,6 +91,16 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION': '/var/run/redis/redis.sock',
+    },
+}
+
+BROKER_URL = 'redis+socket:///var/run/redis/redis.sock'
+#CELERY_RESULT_BACKEND = BROKER_URL
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 600}
 
 AUTHENTICATION_BACKENDS = (
     #'social.backends.open_id.OpenIdAuth',
