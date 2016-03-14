@@ -198,6 +198,8 @@ WEB_MANIFEST = {
     "icons": []
 }
 
+KRONOS_PREFIX = 'source `echo $VIRTUAL_ENV`/bin/activate && '
+
 try:
     from .local_settings import *
 except ImportError:
