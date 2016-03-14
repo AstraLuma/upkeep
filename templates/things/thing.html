@@ -12,7 +12,10 @@
 {% endblock %}
 
 {% block content %}
-<h1>{{object}}</h1>
+<h1>
+	{{object}}
+	<button data-action=delete-thing data-thing="{{object.id}}" data-label="{{object.name}}"><span class="fa-trash"></span></button>
+</h1>
 
 <h2>Schedules</h2>
 <ul>

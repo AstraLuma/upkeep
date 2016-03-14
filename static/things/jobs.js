@@ -28,3 +28,11 @@ $$.q('[data-action=delete-schedule]').forEach(function(ele) {
         }
     });
 });
+
+$$.q('[data-action=delete-thing]').forEach(function(ele) {
+    ele.addEventListener("click", function(event) {
+        if (window.confirm("Are you sure you want to delete "+ele.dataset.label+"?")) {
+            console.log("Delete thing", ele.dataset.thing);
+        }
+    });
+});
