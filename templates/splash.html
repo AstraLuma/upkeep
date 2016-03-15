@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% load profiles %}
 
-{% block title %}You Should Use my App!{% endblock %}
+{% block title %}Upkeep: Maintainence Reminder{% endblock %}
 
 {% block content %}
-<p>You should totally use my app! It's awesome!</p>
+<p>I'll remind you when your stuff needs things.</p>
 
 {% for be in backends.backends %}
 <a class="loginbtn {{be}}" href="{% url "social:begin" be %}">{% socialname be %}</a>
