@@ -3,12 +3,12 @@ from .models import Thing, Schedule, Job
 
 @admin.register(Thing)
 class ThingAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['name', 'user']
 
 @admin.register(Schedule)
 class ScheduleAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['name', 'thing', 'period', 'next_job_at']
 
 @admin.register(Job)
 class JobAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['name', 'when', 'done']

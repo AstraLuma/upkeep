@@ -83,6 +83,10 @@ class Job(models.Model):
     done = models.BooleanField(default=False)
     # TODO: Only one undone job per schedule
 
+    @property
+    def name(self):
+        return self.schedule.name
+
     objects = JobManager()
 
     def __str__(self):
