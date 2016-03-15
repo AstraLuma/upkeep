@@ -144,7 +144,7 @@ LOGIN_REDIRECT_URL = SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/login/error'
 SOCIAL_AUTH_LOGIN_URL = '/'
-SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/stuff/add'
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/'
 SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = '/profile#social'
 SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/profile#social'
 SOCIAL_AUTH_INACTIVE_USER_URL = '/login/inactive'
@@ -198,7 +198,9 @@ WEB_MANIFEST = {
     "icons": []
 }
 
-KRONOS_PREFIX = 'source `echo $VIRTUAL_ENV`/bin/activate && '
+import os
+if 'VIRTUAL_ENV' in os.environ:
+    KRONOS_PREFIX = 'source {}/bin/activate && '.format(os.environ['VIRTUAL_ENV'])
 
 try:
     from .local_settings import *
