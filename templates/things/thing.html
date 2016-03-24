@@ -14,7 +14,7 @@
 {% block content %}
 <h1>
 	{{object}}
-	<button data-action=delete-thing data-thing="{{object.id}}" data-label="{{object.name}}"><span class="fa-trash"></span></button>
+	<button data-action=delete-thing data-thing="{{object.id}}" data-label="{{object.name}}"><span class="fa fa-trash"></span></button>
 </h1>
 
 <h2>Schedules</h2>
@@ -22,21 +22,21 @@
 {% for s in object.schedule_set.all %}
 <li id="schedule-{{s.id}}">
 	{{s}} every {{s.period}}
-	<button data-action=delete-schedule data-schedule="{{s.id}}" data-label="{{s.name}}"><span class="fa-trash"></span></button>
+	<button data-action=delete-schedule data-schedule="{{s.id}}" data-label="{{s.name}}"><span class="fa fa-trash"></span></button>
 </li>
 {% endfor %}
 </ul>
-<button data-action=show-dialog data-dialog=dlg-addschedule><span class="fa-plus"></span> Add</button>
+<button data-action=show-dialog data-dialog=dlg-addschedule><span class="fa fa-plus"></span> Add</button>
 
 <h2>Undone Jobs</h2>
 <ul>
 {% for j in undonejobs %}
-<li>{{j}} <button data-jobid="{{j.id}}" data-action="finish-job"><span class="fa-check"></span> Finish</button></li>
+<li>{{j}} <button data-jobid="{{j.id}}" data-action="finish-job"><span class="fa fa-check"></span> Finish</button></li>
 {% endfor %}
 </ul>
 
 <dialog id="dlg-addschedule">
-	<button data-action=close><span class="fa-close"></span></button>
+	<button data-action=close><span class="fa fa-close"></span></button>
 	<h3>Add Schedule</h3>
     <form action="{% url 'things:addschedule' object.id %}" method=POST>
         {% csrf_token %}
