@@ -121,3 +121,31 @@ def finishjob_json(request):
     job.save()
 
     return JsonResponse({'ok': True})
+
+@login_required
+def deleteschedule_json(request):
+    if request.method != 'POST':
+        return JsonResponse({'msg': 'Try a POST'}, status=405)  # Method Not Allowed
+    obj = json.loads(request.body.decode('utf-8'))
+    try:
+        schedule = Schedule.objects.get(pk=obj['schedule'])
+    except Schedule.DoesNotExist:
+        return JsonResponse({'msg': 'Schedule does not exist'}, status=400)
+
+    schedule.delete()
+
+    return JsonResponse({'ok': True})
+
+@login_required
+def deletething_json(request):
+    if request.method != 'POST':
+        return JsonResponse({'msg': 'Try a POST'}, status=405)  # Method Not Allowed
+    obj = json.loads(request.body.decode('utf-8'))
+    try:
+        thing = Thing.objects.get(pk=obj['thing'])
+    except Thing.DoesNotExist:
+        return JsonResponse({'msg': 'Thing does not exist'}, status=400)
+
+    thing.delete()
+
+    return JsonResponse({'ok': True})

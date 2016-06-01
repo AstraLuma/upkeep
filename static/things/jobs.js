@@ -1,3 +1,5 @@
+"use strict";
+
 $$.q('[data-action=finish-job]').forEach(function(ele) {
     ele.addEventListener("click", function(event) {
         var jobid = ele.dataset.jobid;
@@ -23,16 +25,27 @@ $$.q('[data-action=close]').forEach(function(ele) {
 
 $$.q('[data-action=delete-schedule]').forEach(function(ele) {
     ele.addEventListener("click", function(event) {
-        if (window.confirm("Are you sure you want to delete "+ele.dataset.label+"?")) {
+        if (window.confirm("Are you sure you want to remove your "+ele.dataset.label+"?")) {
             console.log("Delete schedule", ele.dataset.schedule);
+            $$.json.post("/delete-schedule.json", {'schedule': ele.dataset.schedule})
+            .then(function() {
+                // TODO: Fade out nicely
+                var parent = ele.parentElement;
+                parent.parentElement.removeChild(parent);
+            });
         }
     });
 });
 
 $$.q('[data-action=delete-thing]').forEach(function(ele) {
     ele.addEventListener("click", function(event) {
-        if (window.confirm("Are you sure you want to delete "+ele.dataset.label+"?")) {
+        if (window.confirm("Are you sure you want to remove your "+ele.dataset.label+"?")) {
             console.log("Delete thing", ele.dataset.thing);
+            $$.json.post("/delete-thing.json", {'thing': ele.dataset.thing})
+            .then(function() {
+                // XXX: This is only right if we're deleting the "self" object of the page, rendering the entire page 404
+                document.location = "/";
+            });
         }
     });
 });
