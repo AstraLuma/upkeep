@@ -10,4 +10,6 @@ def newjobnotify(jid):
 		return
 	if job.done:
 		return
-	notify(job.schedule.thing.user)
+	notify(job.schedule.thing.user, 
+		text="You need to {} on your {}".format(job.schedule.name, job.schedule.thing.name),
+		)

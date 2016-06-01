@@ -2,4 +2,7 @@ A basic [web push](https://www.w3.org/TR/push-api/) ([MDN](https://developer.moz
 
 Give the client-side the named URLs `push:register` and `push:unregister`. TODO: Format
 
-The application can use `piston.notify(user)` to pass a notification to all subscriptions. There is not data associated with it at this time because Chrome/GCM don't support `PushEvent.data` and I don't feel like writing a polyfill.
+Email is also supported in the form of `mailto:` addresses.
+
+The application can use `piston.notify(user, text)` to pass a notification to all subscriptions. The text is only used with email, not WebPush because encryption is hard.
+

@@ -198,6 +198,10 @@ WEB_MANIFEST = {
     "icons": []
 }
 
+PISTON_EMAIL_DEFAULT_TEXT = "*pokepoke*"
+PISTON_EMAIL_SUBJECT = "Upkeep Reminders for Today"
+PISTON_EMAIL_FROM = "noreply@localhost"
+
 import os
 if 'VIRTUAL_ENV' in os.environ:
     KRONOS_PREFIX = 'source {}/bin/activate && '.format(os.environ['VIRTUAL_ENV'])
