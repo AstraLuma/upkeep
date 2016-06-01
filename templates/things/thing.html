@@ -21,7 +21,7 @@
 <ul>
 {% for s in object.schedule_set.all %}
 <li id="schedule-{{s.id}}">
-	{{s}} every {{s.period}}
+	{{s}} every {{s.period.days}} days
 	<button data-action=delete-schedule data-schedule="{{s.id}}" data-label="{{s.name}}"><span class="fa fa-trash"></span></button>
 </li>
 {% endfor %}
@@ -40,7 +40,11 @@
 	<h3>Add Schedule</h3>
     <form action="{% url 'things:addschedule' object.id %}" method=POST>
         {% csrf_token %}
-        {{ forms.schedule.as_p }}
+        <p>I need to 
+        	<input id="id_name" maxlength="128" name="name" type="text" placeholder="(verb)"> 
+        	every 
+        	<input id="id_period" name="period" type="number" placeholder="(number)"> 
+        	days.</p>
 	    <input type=submit value="Add">
     </form>
 </dialog>

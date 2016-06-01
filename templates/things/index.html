@@ -15,11 +15,15 @@
 
 <h2>Undone Jobs</h2>
 
+{% if not jobs %}
+<p>You have nothing to do! Maybe buy a hammock?</p>
+{% else %}
 <ul>
 {% for j in jobs %}
 <li>{{j}} <button data-jobid="{{j.id}}" data-action="finish-job"><span class="fa fa-check"></span> Finish</button></li>
 {% endfor %}
 </ul>
+{% endif %}
 
 
 {% endblock %}
