@@ -46,3 +46,17 @@ dialog > h3:first-child {
 nav.sidebar > h1:first-child {
     margin-top: 0.2em;
 }
+
+nav .syslinks {
+    padding: 0;
+}
+
+nav .syslinks li {
+    display: block;
+    text-align: center;
+}
+
+hr {
+    border: solid thin black;
+}
+
