@@ -41,9 +41,9 @@
     <form action="{% url 'things:addschedule' object.id %}" method=POST>
         {% csrf_token %}
         <p>I need to 
-        	<input id="id_name" maxlength="128" name="name" type="text" placeholder="(verb)"> 
+        	<input id="id_name" maxlength="128" name="name" type="text" placeholder="(verb)" required> 
         	every 
-        	<input id="id_period" name="period" type="number" placeholder="(number)"> 
+        	<input id="id_period" name="days" type="number" placeholder="(number)" min=1 step=1 required> 
         	days.</p>
 	    <input type=submit value="Add">
     </form>

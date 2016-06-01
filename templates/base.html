@@ -41,7 +41,7 @@
         <h3>Add Thing</h3>
         <form action="{% url 'things:addthing' %}" method=POST>
             {% csrf_token %}
-            <p>I have a <input id="id_name" maxlength="128" name="name" type="text" placeholder="(noun)"></p>
+            <p>I have a <input id="id_name" maxlength="128" name="name" type="text" placeholder="(noun)" required></p>
             <input type=submit value="Add">
         </form>
     </dialog>
