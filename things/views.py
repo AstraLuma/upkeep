@@ -6,6 +6,7 @@ from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404
 from django.forms import ModelForm
+from django import forms
 from django.http import JsonResponse
 import datetime
 import json
@@ -58,9 +59,10 @@ class AddThing(LoginRequiredMixin, FormView):
 
 
 class ScheduleForm(ModelForm):
+    days = forms.IntegerField(min_value=1)
     class Meta:
         model = Schedule
-        fields = ['name', 'period']
+        fields = ['name']
 
 # Don't use CreateView because we have to do current user stuff
 class AddSchedule(LoginRequiredMixin, FormView):
@@ -79,6 +81,7 @@ class AddSchedule(LoginRequiredMixin, FormView):
     def form_valid(self, form):
         if form.is_valid():
             sched = form.save(commit=False)
+            sched.period = datetime.timedelta(days=form.cleaned_data['days'])
             sched.thing = self.get_thing()
             sched.next_job_at = datetime.date.today() + sched.period
             sched.save()
