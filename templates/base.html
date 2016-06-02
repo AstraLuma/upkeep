@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load things %}
 <!doctype html>
 <html>
     <head>
@@ -18,6 +19,7 @@
         {% block head %}{% endblock %}
     </head>
     <body>
+    {% things user as stuff %}
     {% if stuff != None %}
     <nav class="sidebar">
         <h1><a href="/">My Stuff</a></h1>

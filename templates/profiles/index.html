@@ -5,5 +5,27 @@
 
 {% block content %}
 <h1>Account Settings</h1>
-<p>A bunch of account junk here</p>
+<h2>Push Notifications</h2>
+<p>You have {{browsers}} browsers and/or devices receiving notifications.</p>
+
+{% if emails %}
+<p>The following emails are receiving notifications:</p>
+<ul>
+{% for url, email in emails %}
+<li data-url="{{url}}"><tt>{{email}}</tt></li>
+{% endfor %}
+</ul>
+{% endif %}
+
+<button data-action=show-dialog data-dialog=dlg-addemail><span class="fa fa-plus"></span> Add email</button>
+
+<dialog id="dlg-addemail">
+    <button data-action=close><span class="fa fa-close"></span></button>
+    <h3>Add Notification Email</h3>
+    <form action="{% url 'profile:index' %}" method=POST>
+        {% csrf_token %}
+        <p>Contact me at <input maxlength="128" name="email" type="email" placeholder="(email)" required></p>
+    	<input type=submit value="Add">
+    </form>
+</dialog>
 {% endblock %}

@@ -13,7 +13,6 @@ import json
 
 def genctx(request, **vars):
     rv = {
-        'stuff': Thing.objects.filter(user=request.user),
         'forms': {
             'thing': ThingForm(),
             'schedule': ScheduleForm(),
