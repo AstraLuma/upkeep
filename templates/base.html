@@ -13,6 +13,7 @@
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="{% static 'lib/site.css' %}">
+        <link rel="stylesheet" href="{% static 'common.css' %}">
 
         {% block head %}{% endblock %}
     </head>
@@ -58,6 +59,7 @@
     {% if user.is_authenticated %}
     <script src="{% static 'lib/service-init.js' %}"></script>
     {% endif %}
+    <script src="{% static 'common.js' %}"></script>
     {% block scripts %}{% endblock %}
     </body>
 </html>

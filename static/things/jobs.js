@@ -11,18 +11,6 @@ $$.q('[data-action=finish-job]').forEach(function(ele) {
     });
 });
 
-$$.q('[data-action=show-dialog]').forEach(function(ele) {
-    ele.addEventListener("click", function(event) {
-        $$.id(ele.dataset.dialog).showModal();
-    });
-});
-
-$$.q('[data-action=close]').forEach(function(ele) {
-    ele.addEventListener("click", function(event) {
-        ele.parentNode.close();
-    });
-});
-
 $$.q('[data-action=delete-schedule]').forEach(function(ele) {
     ele.addEventListener("click", function(event) {
         if (window.confirm("Are you sure you want to remove your "+ele.dataset.label+"?")) {
