@@ -31,7 +31,10 @@
 <h2>Undone Jobs</h2>
 <ul>
 {% for j in undonejobs %}
-<li>{{j}} <button data-jobid="{{j.id}}" data-action="finish-job"><span class="fa fa-check"></span> Finish</button></li>
+<li>
+    {{j.schedule.name}}
+    <button data-jobid="{{j.id}}" data-action="finish-job"><span class="fa fa-check"></span> Finish</button>
+</li>
 {% endfor %}
 </ul>
 
