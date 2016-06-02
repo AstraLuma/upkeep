@@ -6,7 +6,7 @@ from gcmclient import JSONMessage
 from django.conf import settings
 from django.core.mail import send_mail
 
-__all__ = 'notify',
+__all__ = 'notify', 'get_registrations'
 
 GCM_PREFIX = 'https://android.googleapis.com/gcm/send/'
 EMAIL_PREFIX = 'mailto:'
@@ -65,3 +65,20 @@ def do_email(url, text):
     subject = "" if istxt else settings.PISTON_EMAIL_SUBJECT
 
     send_mail(subject, text, settings.PISTON_EMAIL_FROM, [email], fail_silently=False)
+
+def url2email(url):
+    return urlparse(url).path
+
+def email2url(email):
+    return 'mailto:'+email
+
+def get_registrations(user):
+    """
+    Get a sequence of tuples of the URL and the type of URL it is.
+    """
+    from .models import PushRegistration
+    for pr in PushRegistration.objects.filter(user=user):
+        t = "web"
+        if pr.pushurl.startswith(EMAIL_PREFIX):
+            t = "email"
+        yield pr.pushurl, t
