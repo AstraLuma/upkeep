@@ -13,7 +13,7 @@ $$.q('[data-action=finish-job]').forEach(function(ele) {
 
 $$.q('[data-action=delete-schedule]').forEach(function(ele) {
     ele.addEventListener("click", function(event) {
-        if (window.confirm("Are you sure you want to remove your "+ele.dataset.label+"?")) {
+        if (window.confirm("Are you sure you no longer need to "+ele.dataset.label+"?")) {
             console.log("Delete schedule", ele.dataset.schedule);
             $$.json.post("/delete-schedule.json", {'schedule': ele.dataset.schedule})
             .then(function() {
