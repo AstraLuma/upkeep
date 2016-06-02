@@ -19,7 +19,7 @@
         {% block head %}{% endblock %}
     </head>
     <body>
-    {% things user as stuff %}
+    {% get_things_for user as stuff %}
     {% if stuff != None %}
     <nav class="sidebar">
         <h1><a href="/">My Stuff</a></h1>

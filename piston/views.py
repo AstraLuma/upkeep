@@ -27,7 +27,20 @@ def addurl(request):
 
 @login_required
 def dropurl(request):
-    raise NotImplementedError()
+    if request.method != 'POST':
+        return JsonResponse({'msg': 'Try a POST'}, status=405)  # Method Not Allowed
+    obj = json.loads(request.body.decode('utf-8'))
+    if 'url' not in obj:
+        return JsonResponse({'msg': 'Missing URL'}, status=400)
+
+    pr = PushRegistration.objects.get(user=request.user, pushurl=obj['url'])
+
+    if not pr:
+        return JsonResponse({}, status=200)
+
+    pr.delete()
+
+    return JsonResponse({}, status=200)
 
 def manifest(request):
     m = getattr(settings, 'WEB_MANIFEST', {}).copy()

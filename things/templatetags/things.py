@@ -4,5 +4,5 @@ from ..models import Thing
 register = template.Library()
 
 @register.simple_tag
-def things(user):
+def get_things_for(user):
     return Thing.objects.filter(user=user)
