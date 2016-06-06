@@ -60,7 +60,7 @@ def do_email(url, text):
         text = settings.PISTON_EMAIL_DEFAULT_TEXT
     email = urlparse(url).path
     # Do some special handling if it's actually a text message
-    istxt = any(e.endswith(d) for e in emails for d in ('@vtext.com'))  # FIXME: Get a more complete list
+    istxt = any(email.endswith(d) for d in ('@vtext.com'))  # FIXME: Get a more complete list
 
     subject = "" if istxt else settings.PISTON_EMAIL_SUBJECT
 
