@@ -16,12 +16,14 @@ sync:
 .PHONY: bounce-web
 bounce-web:
 	@echo "Bouncing application server"
-	service upkeep-web restart
+	-service upkeep-web stop
+	service upkeep-web start
 
 .PHONY: bounce-job
 bounce-job:
 	@echo "Bouncing job worker"
-	service upkeep-job restart
+	-service upkeep-job stop
+	service upkeep-job start
 
 .PHONY: update
 update: sync bounce-web bounce-job
