@@ -12,10 +12,12 @@ button, a {
     text-align: center;
     text-decoration: none;
     color: black;
+    min-height: calc(7mm - 2em);
+    min-width: calc(7mm - 2em);
 }
 .loginbtn::before {
-    font: FontAwesome;
-    margin-right: 1ex;
+    font-family: FontAwesome;
+    margin-right: 1ch;
 }
 .google-oauth2::before {
     content: "\f1a0";
