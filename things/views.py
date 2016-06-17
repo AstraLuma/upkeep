@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.forms import ModelForm
 from django import forms
 from django.http import JsonResponse
+from django.db import transaction
 import datetime
 import json
 
@@ -117,7 +118,11 @@ def finishjob_json(request):
         return JsonResponse({'msg': 'Job does not exist'}, status=400)
 
     job.done = True
-    job.save()
+    job.schedule.update_to_next()
+
+    with transaction.atomic():
+        job.save()
+        job.schedule.save()
 
     return JsonResponse({'ok': True})
 

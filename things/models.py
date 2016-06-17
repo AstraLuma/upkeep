@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.core.urlresolvers import reverse
+import datetime
 
 class ThingQuerySet(models.QuerySet):
     def accessible_by(self, user):
@@ -61,6 +62,15 @@ class Schedule(models.Model):
 
     def get_absolute_url(self):
         return reverse('things:thing', args=[self.thing.id]) + '#schedule-{}'.format(self.id)
+
+    def update_to_next(self, at=None):
+        """
+        Calculates the next job. Does not save.
+        """
+        if at is None:
+            at = datetime.date.today()
+
+        self.next_job_at = at + self.period
 
 
 class JobQuerySet(models.QuerySet):
