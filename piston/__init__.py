@@ -2,7 +2,6 @@ import requests
 import re
 from urllib.parse import urlparse
 from gcmclient import JSONMessage
-
 from django.conf import settings
 from django.core.mail import send_mail
 
@@ -10,6 +9,12 @@ __all__ = 'notify', 'get_registrations'
 
 GCM_PREFIX = 'https://android.googleapis.com/gcm/send/'
 EMAIL_PREFIX = 'mailto:'
+
+WEBPUSH_PREFIXES = [
+    GCM_PREFIX,
+    'https://updates.push.services.mozilla.com/push/',
+    # Microsoft's will need to go here
+]
 
 def url2gcm(url):
     return url[len(GCM_PREFIX):]
