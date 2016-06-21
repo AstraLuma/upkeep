@@ -35,7 +35,7 @@ def addurl(request):
 
     url = obj['url']
 
-    if any(url.startswith(pf for pf in WEBPUSH_PREFIXES):
+    if any(url.startswith(pf for pf in WEBPUSH_PREFIXES)):
         # Pass through without problems
         pass
     elif url.startswith(EMAIL_PREFIX):
