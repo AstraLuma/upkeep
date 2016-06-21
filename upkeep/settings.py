@@ -179,8 +179,8 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 # CSP Configuration
 # https://django-csp.readthedocs.org/en/latest/configuration.html#configuration-chapter
 from django.core.urlresolvers import reverse_lazy
-CSP_STYLE_SRC = ["'self'", "maxcdn.bootstrapcdn.com"]  # Only for development
-CSP_FONT_SRC = ["'self'", "maxcdn.bootstrapcdn.com"]  # Only for development
+CSP_STYLE_SRC = ["'self'"]  # Only for development
+CSP_FONT_SRC = ["'self'"]  # Only for development
 CSP_REPORT_URI = reverse_lazy('report_csp')
 # Note: https://www.tollmanz.com/content-security-policy-report-samples/ for information on the particulars of reports
 # Also: https://www.virtuesecurity.com/blog/abusing-csp-violation-reporting/ for security implications
