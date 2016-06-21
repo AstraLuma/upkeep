@@ -1,3 +1,6 @@
+# For BSD Make
+.SHELL: name=sh
+
 .PHONY: start_uwsgi
 start_uwsgi:
 	uwsgi --uid www --socket /var/www/uwsgi.sock --module upkeep.wsgi
