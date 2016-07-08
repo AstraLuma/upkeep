@@ -16,6 +16,88 @@ WEBPUSH_PREFIXES = [
     # Microsoft's will need to go here
 ]
 
+SMS_GATEWAYS = {
+# Based on http://www.makeuseof.com/tag/email-to-sms/, a little dated but it's a starting point
+    '@message.alltel.com',
+    '@txt.att.net',
+    '@mms.att.net',
+    '@cingularme.com',
+    '@myboostmobile.com',
+    '@messaging.nextel.com',
+    '@messaging.nextel.com',
+    '@messaging.sprintpcs.com',
+    '@pm.sprint.com',
+    '@messaging.sprintpcs.com',
+    '@tmomail.net',
+    '@email.uscc.net',
+    '@mms.uscc.net',
+    '@email.uscc.net',
+    '@vtext.com',
+    '@vzwpix.com',
+    '@vmobl.com',
+    '@cingularme.com',
+    '@airtelkk.com',
+    '@sms.airtelmontana.com',
+    '@msg.acsalaska.com',
+    '@text.aql.com',
+    '@page.att.net',
+    '@tachyonsms.co.uk',
+    '@txt.bell.ca',
+    '@bplmobile.com',
+    '@mobile.celloneusa.com',
+    '@cingularme.com',
+    '@cwemail.com',
+    '@cingularme.com',
+    '@clarotorpedo.com.br',
+    '@ideasclaro-ca.com',
+    '@comcel.com.co',
+    '@sms.mycricket.com',
+    '@sms.ctimovil.com.ar',
+    '@emtelworld.net',
+    '@fido.ca',
+    '@msg.gci.net',
+    '@msg.globalstarusa.com',
+    '@messaging.sprintpcs.com',
+    '@ivctext.com',
+    '@msg.iridium.com',
+    '@rek2.com.mx',
+    '@iwspcs.net',
+    '@msg.koodomobile.com',
+    '@sms.lmt.lv',
+    '@sms.mymeteor.ie',
+    '@sms.spicenepal.com',
+    '@mymetropcs.com',
+    '@sms.movistar.net.ar',
+    '@sms.mobitel.lk',
+    '@movistar.com.co',
+    '@sms.co.za',
+    '@text.mtsmobility.com',
+    '@messaging.nextel.com',
+    '@nextel.net.ar',
+    '@orange.pl',
+    '@alertas.personal.com.ar',
+    '@text.plusgsm.pl',
+    '@txt.bell.ca',
+    '@qwestmp.com',
+    '@pcs.rogers.com',
+    '@slinteractive.com.au',
+    '@sms.sasktel.com',
+    '@mas.aw',
+    '@tms.suncom.com',
+    '@sms.t-mobile.at',
+    '@t-mobile.uk.net',
+    '@msg.telus.com',
+    '@sms.thumbcellular.com',
+    '@sms.tigo.com.co',
+    '@mmst5.tracfone.com',
+    '@utext.com',
+    '@vmobile.ca',
+    '@voda.co.za',
+    '@sms.vodafone.it',
+    '@sms.ycc.ru',
+    '@mobipcs.net',
+}
+
 def url2gcm(url):
     return url[len(GCM_PREFIX):]
 
@@ -65,7 +147,7 @@ def do_email(url, text):
         text = settings.PISTON_EMAIL_DEFAULT_TEXT
     email = urlparse(url).path
     # Do some special handling if it's actually a text message
-    istxt = any(email.endswith(d) for d in ('@vtext.com'))  # FIXME: Get a more complete list
+    istxt = any(email.endswith(d) for d in SMS_GATEWAYS)
 
     subject = "" if istxt else settings.PISTON_EMAIL_SUBJECT
 
